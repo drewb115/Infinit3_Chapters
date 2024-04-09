@@ -1,0 +1,93 @@
+<!-- app/views/home/about.html.erb -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About Us</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f5f5f5;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 50px auto;
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+
+    h2 {
+      color: #007bff;
+      margin-top: 20px;
+    }
+
+    p {
+      color: #666;
+      line-height: 1.6;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h1>About Us</h1>
+  <% if @about_content %>
+    <%= @about_content.content.html_safe %>
+  <% else %>
+    <p>
+      <strong>Introduction</strong><br>
+      Thank you for the opportunity to submit a proposal for the development of your online bookstore. With a strong passion for creating intuitive, user-friendly e-commerce experiences, Our company is excited to bring your vision to life. We understand the unique challenges and opportunities that come with selling books online and are prepared to deliver a platform that not only meets but exceeds your expectations.<br><br>
+      <strong>Description of the E-commerce Site</strong><br>
+      <strong>Business Name:</strong> Infinite Chapters<br>
+      Infinite Chapters is an emerging online bookstore aiming to create a vast and accessible digital space for book enthusiasts. With a dedicated team of 20 employees and leveraging over 11 years of experience in the traditional retail book industry in Winnipeg, Manitoba, Infinite Chapters is transitioning to the digital realm to serve a wider audience. Our focus is on providing an extensive range of books, including bestsellers, classics, rare finds, and academic texts, to cater to the diverse interests of our customers. Until now, our products have been sold through our physical location and at local literary events. This move to an online platform marks a significant expansion of our reach and services, allowing us to accommodate readers across Canada and beyond. Our online bookstore is designed to all book lovers of all ages in Canada, from young readers to book enthusiasts, seeking both popular titles and rare finds. Our selection appeals to a wide array of interests, ensuring there is something for everyone.
+    </p>
+  <% end %>
+
+  <div class="back-button">
+    <a href="/">Back to Home</a>
+  </div>
+</div>
+
+<div class="container">
+  <h2>Database Structure Description</h2>
+  <p>
+    <strong>Tables:</strong><br>
+    <strong>Users</strong><br>
+    Description: Stores customer information.<br>
+    Columns: id (integer), email (string), password (string), name (string), address (text)<br>
+    <strong>Books</strong><br>
+    Description: Contains details of books for sale.<br>
+    Columns: id (integer), title (string), author (string), description (text), price (decimal), stock_quantity (integer), genre (string)<br>
+    <strong>Orders</strong><br>
+    Description: Records details of customer orders.<br>
+    Columns: id (integer), user_id (integer, FK), status (string), total_price (decimal), created_at (datetime)<br>
+    <strong>OrderItems</strong><br>
+    Description: Associates books with orders, tracking quantity.<br>
+    Columns: id (integer), order_id (integer, FK), book_id (integer, FK), quantity (integer), price (decimal)<br>
+    <strong>BookPrices</strong><br>
+    Description: Tracks historical and current book prices.<br>
+    Columns: id (integer), book_id (integer, FK), price (decimal), start_date (datetime), end_date (datetime)<br>
+  </p>
+  <p>
+    <strong>Associations:</strong><br>
+    A User can have multiple Orders.<br>
+    An Order can have multiple OrderItems.<br>
+    OrderItems link Orders to Books, including the quantity of each book ordered.<br>
+    A Book can have multiple entries in BookPrices to track price changes over time without affecting past orders.
+  </p>
+</div>
+
+</body>
+</html>

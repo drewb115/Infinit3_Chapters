@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Featured Books</title>
+  <link rel="stylesheet" href="assets/stylesheets/application.css">
+</head>
+<body>
+
+<h1 class="title">InfiniteChapters</h1>
+
+<!-- Home button -->
+<div class="home-button">
+  <a href="/" class="home-link">Home</a>
+</div>
+
+<!-- About button -->
+<div class="about-button">
+  <a href="/about" class="about-link">About</a>
+</div>
+
+<!-- Sign up button -->
+<div class="signup-button">
+  <a href="/users/sign_up" class="signup-link">Sign up</a>
+</div>
+
+<!-- Search form -->
+<form action="/" method="get" class="search-form">
+  <input type="text" name="q" placeholder="Search by keyword">
+  <select name="category">
+    <option value="title">Title</option>
+    <option value="author">Author</option>
+    <option value="genre">Genre</option>
+  </select>
+  <button type="submit">Search</button>
+</form>
+
+<!-- Option button to filter products -->
+<div class="filter-option">
+  <form action="/" method="get">
+    <label>
+      Filter by:
+      <select name="status"> <!-- Corrected name to 'status' -->
+        <option value="">All</option>
+        <option value="on_sale">On Sale</option>
+        <option value="limited_edition">Limited Edition</option>
+        <option value="recently_added">Recently Added</option>
+        <option value="available">Available</option>
+        <option value="out_of_stock">Out_of_Stock</option>
+      </select>
+    </label>
+    <button type="submit">Apply Filter</button>
+  </form>
+</div>
+
+<div class="books">
+  <% @books.each do |book| %>
+    <div class="book">
+      <h2><%= book.title %></h2>
+      <% if book.image.present? %>
+        <%= image_tag book.image %>
+      <% else %>
+        <!-- Placeholder image or alternative content if image is not present -->
+        <p>No Image Available</p>
+      <% end %>
+      <p><strong>Author:</strong> <%= book.author %></p>
+      <p><strong>Description:</strong> <%= book.description %></p>
+      <p><strong>Genre:</strong> <%= book.genre %></p>
+      <p><strong>Price:</strong> <%= number_to_currency(book.price) %></p>
+      <!-- Display book status -->
+      <p><strong>Status:</strong> <%= book.status %></p>
+      <!-- Link to view details -->
+      <a href="/books/<%= book.id %>" class="view-details-link">View Details</a>
+
+      <!-- Add to Cart form -->
+      <%= form_with url: cart_index_path, method: :post do %>
+        <%= hidden_field_tag(:product_id, book.id) %>
+        <%= button_tag 'Add to Cart' %>
+      <% end %>
+
+    </div>
+  <% end %>
+</div>
+
+<!-- My Cart button -->
+<div class="my-cart-button">
+  <a href="/cart" class="my-cart-link">My Cart</a>
+</div>
+
+<!-- Pagination -->
+<div class="pagination">
+  <%= paginate @books %>
+</div>
+
+</body>
+</html>
