@@ -13,8 +13,8 @@
 <!-- Home, About, Sign up buttons -->
 <div class="navigation-buttons">
   <a href="/" class="home-link">Home</a>
-  <a href="/about" class="about-link">About</a>
-  <a href="/users/sign_up" class="signup-link">Sign up</a>
+  <a href="/about_us" class="about-us-link">About Us</a>
+
 </div>
 
 <!-- Search and Filter form -->
@@ -67,11 +67,12 @@
       <p><strong>Genre:</strong> <%= book.genre %></p>
       <p><strong>Price:</strong> <%= number_to_currency(book.price) %></p>
       <p><strong>Status:</strong> <%= book.status %></p>
-      <a href="/books/<%= book.id %>" class="view-details-link">View Details</a>
-
-      <%= form_with url: cart_index_path, method: :post do %>
-        <%= hidden_field_tag(:product_id, book.id) %>
-        <%= button_tag 'Add to Cart' %>
+      <% unless book.status == "Out of Stock" %>
+        <a href="/books/<%= book.id %>" class="view-details-link">View Details</a>
+        <%= form_with url: cart_index_path, method: :post do %>
+          <%= hidden_field_tag(:product_id, book.id) %>
+          <%= button_tag 'Add to Cart' %>
+        <% end %>
       <% end %>
     </div>
   <% end %>
@@ -85,6 +86,15 @@
 <!-- Pagination -->
 <div class="pagination">
   <%= paginate @books %>
+</div>
+
+<!-- Flash Messages -->
+<div class="flash-messages">
+  <% flash.each do |type, message| %>
+    <div class="flash-message <%= type %>">
+      <%= message %>
+    </div>
+  <% end %>
 </div>
 
 </body>

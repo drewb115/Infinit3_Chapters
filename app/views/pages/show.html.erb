@@ -1,0 +1,20 @@
+<div class="about-section">
+  <% if @about_page %>
+    <h1 class="about-title"><%= @about_page.title %></h1>
+    <div class="about-content"><%= @about_page.content.html_safe %></div>
+  <% else %>
+    <p>About page not found.</p>
+  <% end %>
+</div>
+
+<div class="contact-section">
+  <% if @contact_page %>
+    <h1 class="contact-title"><%= @contact_page.title %></h1>
+    <div class="contact-content"><%= @contact_page.content.html_safe %></div>
+  <% else %>
+    <p>Contact page not found.</p>
+  <% end %>
+</div>
+
+<!-- Add a button to return to home -->
+<%= link_to "Return to Home", root_path, class: "btn btn-primary" %>

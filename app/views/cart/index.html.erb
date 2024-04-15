@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Cart</title>
+  <link rel="stylesheet" href="/assets/stylesheets/application.css">
+</head>
+<body>
+
+<div class="flash-messages">
+  <% flash.each do |type, message| %>
+    <div class="flash-message <%= type %>">
+      <%= message %>
+    </div>
+  <% end %>
+</div>
+
+<div class="cart-container">
+  <h1 class="cart-title">My Cart</h1>
+
+  <ul class="cart-list">
+    <% @cart_items.each do |product_id, quantity| %>
+      <% book = @books_in_cart.find { |b| b.id == product_id.to_i } %>
+      <li class="cart-item">
+        <div class="cart-item-details">
+          <%= book.present? ? "Book Title: #{book.title}, Quantity: " : "Book not found, ID: #{product_id}, Quantity: " %>
+          <%= quantity %>
+        </div>
+        <!-- Update form -->
+        <%= form_with url: cart_path(id: product_id), method: :post, local: true, html: { class: 'cart-quantity-form' } do |form| %>
+          <%= form.hidden_field :_method, value: 'put' %>
+          <%= form.number_field :quantity, value: quantity, in: 1..99, class: 'cart-quantity' %>
+          <%= form.submit 'Update Quantity', class: 'update-quantity-btn' %>
+        <% end %>
+        <!-- Remove form -->
+        <%= form_with url: cart_path(id: product_id), method: :post, local: true do |form| %>
+          <%= form.hidden_field :_method, value: 'delete' %>
+          <%= form.submit 'Remove from Cart', class: 'remove-item-btn' %>
+        <% end %>
+      </li>
+    <% end %>
+  </ul>
+</div>
+
+<!-- Link to continue shopping -->
+<div class="continue-shopping-button">
+  <a href="/" class="home-link">Continue Shopping</a>
+</div>
+
+</body>
+</html>
