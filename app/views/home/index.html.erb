@@ -10,50 +10,49 @@
 
 <h1 class="title">InfiniteChapters</h1>
 
-<!-- Home button -->
-<div class="home-button">
+<!-- Home, About, Sign up buttons -->
+<div class="navigation-buttons">
   <a href="/" class="home-link">Home</a>
-</div>
-
-<!-- About button -->
-<div class="about-button">
   <a href="/about" class="about-link">About</a>
-</div>
-
-<!-- Sign up button -->
-<div class="signup-button">
   <a href="/users/sign_up" class="signup-link">Sign up</a>
 </div>
 
-<!-- Search form -->
-<form action="/" method="get" class="search-form">
-  <input type="text" name="q" placeholder="Search by keyword">
-  <select name="category">
-    <option value="title">Title</option>
-    <option value="author">Author</option>
-    <option value="genre">Genre</option>
-  </select>
-  <button type="submit">Search</button>
-</form>
-
-<!-- Option button to filter products -->
-<div class="filter-option">
-  <form action="/" method="get">
-    <label>
-      Filter by:
-      <select name="status"> <!-- Corrected name to 'status' -->
-        <option value="">All</option>
-        <option value="on_sale">On Sale</option>
-        <option value="limited_edition">Limited Edition</option>
-        <option value="recently_added">Recently Added</option>
-        <option value="available">Available</option>
-        <option value="out_of_stock">Out_of_Stock</option>
+<!-- Search and Filter form -->
+<form action="/" method="get" class="search-and-filter-form">
+  <div class="search-field">
+    <input type="text" name="q" placeholder="Search by keyword" value="<%= params[:q] %>">
+    <select name="category">
+      <option value="title">Title</option>
+      <option value="author">Author</option>
+      <option value="genre">Genre</option>
+    </select>
+  </div>
+  <div class="filter-fields">
+    <label>Genre:
+      <select name="genre">
+        <option value="">Any Genre</option>
+        <% @genres.each do |genre| %>
+          <option value="<%= genre %>" <%= 'selected' if params[:genre] == genre %>>
+            <%= genre %>
+          </option>
+        <% end %>
       </select>
     </label>
-    <button type="submit">Apply Filter</button>
-  </form>
-</div>
+    <label>Status:
+      <select name="status">
+        <option value="">Any Status</option>
+        <% @statuses.each do |status| %>
+          <option value="<%= status %>" <%= 'selected' if params[:status] == status %>>
+            <%= status.titleize %>
+          </option>
+        <% end %>
+      </select>
+    </label>
+  </div>
+  <button type="submit">Search & Filter</button>
+</form>
 
+<!-- Books listing -->
 <div class="books">
   <% @books.each do |book| %>
     <div class="book">
@@ -61,24 +60,19 @@
       <% if book.image.present? %>
         <%= image_tag book.image %>
       <% else %>
-        <!-- Placeholder image or alternative content if image is not present -->
         <p>No Image Available</p>
       <% end %>
       <p><strong>Author:</strong> <%= book.author %></p>
       <p><strong>Description:</strong> <%= book.description %></p>
       <p><strong>Genre:</strong> <%= book.genre %></p>
       <p><strong>Price:</strong> <%= number_to_currency(book.price) %></p>
-      <!-- Display book status -->
       <p><strong>Status:</strong> <%= book.status %></p>
-      <!-- Link to view details -->
       <a href="/books/<%= book.id %>" class="view-details-link">View Details</a>
 
-      <!-- Add to Cart form -->
       <%= form_with url: cart_index_path, method: :post do %>
         <%= hidden_field_tag(:product_id, book.id) %>
         <%= button_tag 'Add to Cart' %>
       <% end %>
-
     </div>
   <% end %>
 </div>
