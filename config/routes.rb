@@ -1,4 +1,8 @@
+# config/routes.rb
 Rails.application.routes.draw do
+  # This route can be removed since we're using page_type as a parameter now
+  # get 'pages/show'
+
   # Routes for Devise User Authentication (regular users)
   devise_for :users
 
@@ -6,8 +10,9 @@ Rails.application.routes.draw do
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
 
-  # Route for the About page
-  get 'about', to: 'home#about'
+  # Route for the About page - make sure it doesn't conflict with 'home#about'
+  # If 'home#about' is a different page, keep it, else remove it.
+  # get 'about', to: 'home#about'
 
   get 'added_to_cart', to: 'cart#added_to_cart'
 
@@ -17,9 +22,19 @@ Rails.application.routes.draw do
   # Route for health check
   get "up" => "rails/health#show", as: :rails_health_check
 
+  # Assuming page_contents is not being used, otherwise set up the proper controller and action
+  # resources :page_contents, only: [:show]
+
   # Routes for the CartController
-  resources :cart, only: [:create, :destroy, :index]
+  resources :cart, only: [:create, :destroy, :index, :update]
 
   # Define the root path route ("/")
   root "home#index"
+
+  # Route for the About Us page with defaults
+  # This should be your route for the "About Us" button
+  get '/about_us', to: 'pages#show', as: :about_us_page
+
+
+  # Any other custom routes go here
 end
