@@ -1,4 +1,3 @@
-# app/admin/users.rb
 ActiveAdmin.register User do
   permit_params :email, :password, :password_confirmation, :name, :address, :province
 
@@ -9,6 +8,9 @@ ActiveAdmin.register User do
     column :name
     column :address
     column :province
+    column :encrypted_password do |user|
+      user.encrypted_password
+    end
     actions
   end
 
@@ -24,7 +26,7 @@ ActiveAdmin.register User do
       f.input :password_confirmation
       f.input :name
       f.input :address
-      f.input :province
+      f.input :province, as: :select, collection: ["Alberta", "British Columbia", "Manitoba", "New Brunswick", "Newfoundland and Labrador", "Nova Scotia", "Ontario", "Prince Edward Island", "Quebec", "Saskatchewan"]
     end
     f.actions
   end
