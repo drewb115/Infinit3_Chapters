@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_04_10_125817) do
+ActiveRecord::Schema[7.1].define(version: 2024_04_16_012801) do
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
     t.text "body"
@@ -131,6 +131,10 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_10_125817) do
     t.string "username"
     t.string "province"
     t.string "encrypted_password"
+    t.string "reset_password_token"
+    t.string "unique_session_id"
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"

@@ -1,11 +1,11 @@
-# config/routes.rb
 Rails.application.routes.draw do
-  # This route can be removed since we're using page_type as a parameter now
-  # get 'pages/show'
+   # Routes for Devise User Authentication (regular users)
+   devise_for :users
 
-  # Routes for Devise User Authentication (regular users)
-  devise_for :users
-
+   # Custom sign-out route
+   devise_scope :user do
+     get '/users/sign_out' => 'devise/sessions#destroy'
+   end
   # Routes for Active Admin (AdminUser)
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
@@ -34,7 +34,6 @@ Rails.application.routes.draw do
   # Route for the About Us page with defaults
   # This should be your route for the "About Us" button
   get '/about_us', to: 'pages#show', as: :about_us_page
-
 
   # Any other custom routes go here
 end

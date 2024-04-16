@@ -12,6 +12,8 @@ gem 'image_processing', '~> 1.2'
 
 gem 'kaminari'
 
+gem 'devise-security'
+
 
 
 

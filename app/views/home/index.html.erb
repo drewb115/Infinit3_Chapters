@@ -4,16 +4,27 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Featured Books</title>
-  <link rel="stylesheet" href="assets/stylesheets/application.css">
+<link rel="stylesheet" href="assets/stylesheets/application.css">
 </head>
 <body>
 
 <h1 class="title">InfiniteChapters</h1>
 
-<!-- Home, About, Sign up buttons -->
+<!-- Navigation -->
 <div class="navigation-buttons">
   <a href="/" class="home-link">Home</a>
   <a href="/about_us" class="about-us-link">About Us</a>
+
+  <!-- Conditional Sign-in/Sign-out links -->
+  <% if user_signed_in? %>
+    <h2>Hello <%= current_user.email %></h2>
+    <%= link_to 'Sign out', destroy_user_session_path, method: :delete %>
+  <% else %>
+    <%= link_to 'Sign Up', new_user_registration_path, class: 'sign-up-link' %>
+    <%= link_to 'Login', new_user_session_path, class: 'login-link' %>
+  <% end %>
+</div>
+
 
 </div>
 

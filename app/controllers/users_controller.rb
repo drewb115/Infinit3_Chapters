@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate_user!
 
   def new
     @user = User.new
@@ -14,7 +15,18 @@ class UsersController < ApplicationController
     end
   end
 
-  # Add your other CRUD actions (show, edit, update) here.
+  # Edit action to render the edit form
+  def edit
+  end
+
+  # Update action to handle the form submission
+  def update
+    if @user.update(user_params)
+      redirect_to admin_users_path, notice: 'User was successfully updated.'
+    else
+      render :edit
+    end
+  end
 
   def destroy
     if @user.destroy
