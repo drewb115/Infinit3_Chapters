@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Featured Books</title>
-<link rel="stylesheet" href="assets/stylesheets/application.css">
+  <link rel="stylesheet" href="assets/stylesheets/application.css">
 </head>
 <body>
 
@@ -23,9 +23,6 @@
     <%= link_to 'Sign Up', new_user_registration_path, class: 'sign-up-link' %>
     <%= link_to 'Login', new_user_session_path, class: 'login-link' %>
   <% end %>
-</div>
-
-
 </div>
 
 <!-- Search and Filter form -->
@@ -83,6 +80,10 @@
         <%= form_with url: cart_index_path, method: :post do %>
           <%= hidden_field_tag(:product_id, book.id) %>
           <%= button_tag 'Add to Cart' %>
+        <% end %>
+        <%= form_with url: checkout_create_path, remote: true do %>
+          <%= hidden_field_tag :product_id, book.id %>
+          <%= button_tag 'Buy Now 🛒' %>
         <% end %>
       <% end %>
     </div>

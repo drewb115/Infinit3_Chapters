@@ -35,5 +35,13 @@ Rails.application.routes.draw do
   # This should be your route for the "About Us" button
   get '/about_us', to: 'pages#show', as: :about_us_page
 
+# /checkout/create something
+scope "/checkout" do
+  post "create", to: "checkout#create", as: "checkout_create"
+  get "success", to: "checkout#success", as: "checkout_success"
+  get "cancel", to: "checkout#cancel", as: "checkout_cancel"
+end
+
+
   # Any other custom routes go here
 end
