@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Featured Books</title>
+  <link rel="stylesheet" href="assets/stylesheets/application.css">
+
+  <style>
+    .order-heading {
+      font-size: 1.5em;
+      font-weight: bold;
+      color: #333;
+      margin-bottom: 20px;
+    }
+
+    .order-form {
+      max-width: 500px;
+      margin: 0 auto;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+
+    .form-input {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    .btn-submit {
+      background-color: #007bff;
+      color: #fff;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .btn-submit:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+
+<h1 class="order-heading">New Order</h1>
+<%= form_with(model: @order, url: orders_path, method: :post, class: "order-form") do |form| %>
+  <div class="form-group">
+    <%= form.label :customer_name, class: "form-label" %>
+    <%= form.text_field :customer_name, required: true, class: "form-input" %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :customer_email, class: "form-label" %>
+    <%= form.email_field :customer_email, required: true, class: "form-input" %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :address_line1, class: "form-label" %>
+    <%= form.text_field :address_line1, required: true, class: "form-input" %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :address_line2, class: "form-label" %>
+    <%= form.text_field :address_line2, class: "form-input" %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :city, class: "form-label" %>
+    <%= form.text_field :city, required: true, class: "form-input" %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :province, class: "form-label" %>
+    <%= form.text_field :province, required: true, class: "form-input" %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :postal_code, class: "form-label" %>
+    <%= form.text_field :postal_code, required: true, class: "form-input" %>
+  </div>
+
+  <%= form.submit "Place Order", class: "btn-submit" %>
+<% end %>
+
+</body>
+</html>

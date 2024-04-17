@@ -1,0 +1,11 @@
+<%= form_for @order, url: checkout_path do |f| %>
+  <%= fields_for :user do |u| %>
+    <%= u.label :address %>
+    <%= u.text_field :address %>
+    <%= u.label :province %>
+    <%= u.text_field :province %>
+    <%= u.label :email %>
+    <%= u.email_field :email %>
+  <% end %>
+  <%= f.submit "Complete Checkout" %>
+<% end %>

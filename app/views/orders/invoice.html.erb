@@ -1,0 +1,8 @@
+<!-- app/views/orders/invoice.html.erb -->
+<h1>Invoice</h1>
+<% @order.order_items.each do |item| %>
+  <%= item.book.title %>: <%= item.quantity %> x <%= item.book.price %><br>
+<% end %>
+Subtotal: <%= @order.subtotal %><br>
+Tax: <%= @order.tax %><br>
+Total: <%= @order.total %><br>
