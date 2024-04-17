@@ -1,11 +1,12 @@
 Rails.application.routes.draw do
-   # Routes for Devise User Authentication (regular users)
-   devise_for :users
+  # Routes for Devise User Authentication (regular users)
+  devise_for :users
 
-   # Custom sign-out route
-   devise_scope :user do
-     get '/users/sign_out' => 'devise/sessions#destroy'
-   end
+  # Custom sign-out route
+  devise_scope :user do
+    get '/users/sign_out' => 'devise/sessions#destroy'
+  end
+
   # Routes for Active Admin (AdminUser)
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
@@ -35,13 +36,10 @@ Rails.application.routes.draw do
   # This should be your route for the "About Us" button
   get '/about_us', to: 'pages#show', as: :about_us_page
 
-# /checkout/create something
-scope "/checkout" do
-  post "create", to: "checkout#create", as: "checkout_create"
-  get "success", to: "checkout#success", as: "checkout_success"
-  get "cancel", to: "checkout#cancel", as: "checkout_cancel"
-end
-
+  # Define custom routes for checkout actions
+  resources :products do
+    resources :purchases, only: [:create]
+  end
 
   # Any other custom routes go here
 end

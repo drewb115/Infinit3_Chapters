@@ -1,36 +1,23 @@
 class CheckoutController < ApplicationController
-
   def create
-    # establish a connection to Stripe and then redirect the user to the payment screen
-    product = Product.find_by(id: params[:product_id])
-
-    if product.nil?
-      redirect_to root_path
-      return
-    end
-
-    @session = Stripe::Checkout::Session.create(
+    product = Book.find(params[:product_id])
+    session = Stripe::Checkout::Session.create({
+      payment_method_types: ['card'],
       line_items: [{
         price_data: {
-          currency: 'cad',
+          currency: 'usd',
           product_data: {
-            name: product.name,
-            description: product.description
+            name: product.title,
           },
-          unit_amount: product.price_cents,
-          tax_rates: ['tax_rate_id'] # Replace 'tax_rate_id' with your actual tax rate ID
+          unit_amount: (product.price * 100).to_i,
         },
         quantity: 1,
       }],
       mode: 'payment',
-      success_url: 'https://example.com/success?session_id={CHECKOUT_SESSION_ID}',
-      cancel_url: 'https://example.com/cancel',
-      automatic_tax: { enabled: true }, # Only if you want to use Stripe's automatic tax calculation
-    )
+      success_url: product_purchases_url(product) + '?session_id={CHECKOUT_SESSION_ID}',
+      cancel_url: product_url(product),
+    })
 
-    # You can redirect the user to the Stripe Checkout page or return the session ID to your front end
-    # Example: redirect to the Stripe Checkout page
-    redirect_to @session.url, allow_other_host: true
+    render json: { client_secret: session.client_secret }
   end
-
 end

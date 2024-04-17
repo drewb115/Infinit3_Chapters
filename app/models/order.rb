@@ -1,9 +1,11 @@
+# app/models/order.rb
 class Order < ApplicationRecord
   belongs_to :user
+  has_many :order_items
 
   # Define ransackable associations to whitelist searchable associations
   def self.ransackable_associations(auth_object = nil)
-    ['user'] # List all associations you want to allow for searching
+    ['user', 'order_items'] # Update associations to include order_items
   end
 
   # Define ransackable attributes to whitelist searchable attributes

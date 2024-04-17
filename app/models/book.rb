@@ -2,6 +2,7 @@
 class Book < ApplicationRecord
   has_one_attached :image
   has_many :book_prices
+  has_many :order_items  # Update association name to order_items
 
   # Define ransackable attributes to whitelist searchable attributes
   def self.ransackable_attributes(auth_object = nil)

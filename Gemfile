@@ -14,6 +14,8 @@ gem 'kaminari'
 
 gem 'devise-security'
 
+gem 'stripe'
+
 
 
 

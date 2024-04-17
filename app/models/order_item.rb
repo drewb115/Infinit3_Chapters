@@ -1,6 +1,7 @@
+# app/models/order_item.rb
 class OrderItem < ApplicationRecord
   belongs_to :order
-  belongs_to :book
+  belongs_to :book  # Update association to book
 
   # Define ransackable associations to whitelist searchable associations
   def self.ransackable_associations(auth_object = nil)
