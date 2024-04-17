@@ -20,12 +20,16 @@
   <h1 class="cart-title">My Cart</h1>
 
   <ul class="cart-list">
+    <% total_price = 0 %>
     <% @cart_items.each do |product_id, quantity| %>
-      <% book = @books_in_cart.find { |b| b.id == product_id.to_i } %>
+      <% book = Book.find(product_id) %>
+      <!-- Increment total_price by the price of each book times its quantity -->
+      <% total_price += book.price * quantity %>
       <li class="cart-item">
         <div class="cart-item-details">
-          <%= book.present? ? "Book Title: #{book.title}, Quantity: " : "Book not found, ID: #{product_id}, Quantity: " %>
-          <%= quantity %>
+          <%= book.title %> - <%= number_to_currency(book.price) %> x <%= quantity %>
+          <!-- Display total price for each book -->
+          <br>Total Price: <%= number_to_currency(book.price * quantity) %>
         </div>
         <!-- Update form -->
         <%= form_with url: cart_path(id: product_id), method: :post, local: true, html: { class: 'cart-quantity-form' } do |form| %>
@@ -41,6 +45,15 @@
       </li>
     <% end %>
   </ul>
+
+  <!-- Display total price for all books in the cart -->
+  <p>Total Price for All Books: <%= number_to_currency(total_price) %></p>
+
+  <!-- Add a "Buy" button -->
+  <div class="buy-button">
+    <%= link_to "Checkout", checkout_path, class: "buy-btn" %>
+  </div>
+
 </div>
 
 <!-- Link to continue shopping -->
