@@ -334,3 +334,34 @@ h1 {
 .about-us-link:hover {
   background-color: #45a049;
 }
+
+.user-greeting {
+  font-size: 1.5em; /* Adjust font size as needed */
+  font-weight: bold; /* Make the text bold */
+  color: #fffcfc; /* Set the text color */
+  margin-bottom: 20px; /* Add some bottom margin for spacing */
+}
+
+.my-cart-container {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+}
+
+.my-cart-button {
+  background-color: #4CAF50;
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.my-cart-button:hover {
+  background-color: #45a049;
+}
