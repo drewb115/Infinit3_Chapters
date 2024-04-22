@@ -92,6 +92,12 @@
         </div>
       </div>
     </div>
+
+    <!-- Order Confirmation Message -->
+    <div id="orderConfirmation" class="text-center" style="display: none;">
+      <h2>Order Confirmed!</h2>
+      <!-- You can add any additional content or styling here -->
+    </div>
   </div>
 
   <!-- Cleave.js to automatically format the card inputs -->
@@ -113,11 +119,16 @@
       numeralPositiveOnly: true
     });
 
-    // AJAX form submission
+    // Your provided script
     document.addEventListener("DOMContentLoaded", function() {
       document.getElementById("checkout-form").addEventListener("submit", function(event) {
         event.preventDefault();
         var form = this;
+        var submitButton = form.querySelector('button[type="submit"]');
+
+        // Disable the submit button and change its text
+
+        submitButton.textContent = "Order Confirmed";
 
         fetch(form.action, {
           method: form.method,
@@ -126,10 +137,15 @@
             "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]').content
           }
         })
-        .then(response => response.text())
-        .then(data => {
-          // Replace the current HTML with the response
-          document.documentElement.innerHTML = data;
+        .then(response => {
+          // Check if the response indicates successful order
+          if (response.ok) {
+            // Redirect to the order_confirm.html page
+            window.location.href = "/order_confirm.html";
+          } else {
+            // Handle errors if needed
+            console.error('Error:', response.statusText);
+          }
         })
         .catch(error => {
           console.error('Error:', error);

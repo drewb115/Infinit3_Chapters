@@ -2,6 +2,8 @@ Rails.application.routes.draw do
   # Routes for Devise User Authentication (regular users)
   devise_for :users
 
+
+
   # Custom sign-out route
   devise_scope :user do
     get '/users/sign_out' => 'devise/sessions#destroy'
@@ -28,8 +30,7 @@ Rails.application.routes.draw do
    # Route for thank you page
    get "/thank_you", to: "checkout#thank_you"
 
-   get '/confirm_order', to: 'checkout#confirm_order'
-
+   get '/order_confirm', to: 'confirmation#index'
 
   # Define the root path route ("/")
   root "home#index"
