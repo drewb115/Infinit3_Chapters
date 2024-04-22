@@ -1,1 +1,1 @@
-Stripe.api_key = 'sk_test_51P8DzjGN8Y1xDasuqUyqo6OYvItjXpfnBRFwgxqo75mAcZZEPSwgnugPNfrjoXz2jYLtAT76OhK3fddaLwiJlAgz00IXvzPq74'
+Stripe.api_key = Rails.application.credentials[:stripe][:secret]
