@@ -29,17 +29,15 @@ Rails.application.routes.draw do
   # Routes for the CartController
   resources :cart, only: [:create, :destroy, :index, :update]
 
+  # Route for the checkout action
+  get '/checkout', to: 'orders#checkout', as: 'checkout'
+
+  # Route for creating orders
+  post '/orders', to: 'orders#create', as: 'orders'
+
+  # Route for the order confirmation
+  get '/orders/:id/confirmation', to: 'orders#confirmation', as: 'order_confirmation'
+
   # Define the root path route ("/")
   root "home#index"
-
-  # Route for the About Us page with defaults
-  # This should be your route for the "About Us" button
-  get '/about_us', to: 'pages#show', as: :about_us_page
-
-  # Define custom routes for checkout actions
-  resources :products do
-    resources :purchases, only: [:create]
-  end
-
-  # Any other custom routes go here
 end

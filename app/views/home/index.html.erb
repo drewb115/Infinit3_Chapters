@@ -5,8 +5,22 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Featured Books</title>
   <link rel="stylesheet" href="assets/stylesheets/application.css">
+  <style>
+  .my-cart-container {
+    position: fixed;
+    top: 20px;
+    left: 20px; /* Adjusted to top left */
+  }
+  </style>
 </head>
 <body>
+
+<div class="my-cart-container">
+  <!-- My Cart button -->
+  <div class="my-cart-button">
+    <a href="/cart" class="my-cart-link">My Cart</a>
+  </div>
+</div>
 
 <h1 class="title">InfiniteChapters</h1>
 
@@ -17,7 +31,7 @@
 
   <!-- Conditional Sign-in/Sign-out links -->
   <% if user_signed_in? %>
-    <h2>Hello <%= current_user.email %></h2>
+  <h2 class="user-greeting">Hello <%= current_user.email %></h2>
     <%= link_to 'Sign out', destroy_user_session_path, method: :delete %>
   <% else %>
     <%= link_to 'Sign Up', new_user_registration_path, class: 'sign-up-link' %>
@@ -81,16 +95,9 @@
           <%= hidden_field_tag(:product_id, book.id) %>
           <%= button_tag 'Add to Cart' %>
         <% end %>
-
-        <td><%= button_to "Buy now!🛒", product_purchases_path(book), remote: true %></td>
       <% end %>
     </div>
   <% end %>
-</div>
-
-<!-- My Cart button -->
-<div class="my-cart-button">
-  <a href="/cart" class="my-cart-link">My Cart</a>
 </div>
 
 <!-- Pagination -->
