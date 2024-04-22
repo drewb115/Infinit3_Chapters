@@ -16,6 +16,9 @@ gem 'devise-security'
 
 gem 'stripe'
 
+gem 'bootstrap', '~> 5.3.0'
+
+
 
 
 

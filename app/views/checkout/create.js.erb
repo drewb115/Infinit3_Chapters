@@ -1,7 +1,5 @@
-var stripe = Stripe("<%= Rails.application.credentials.stripe[:public] %>");
-
-stripe.redirectToCheckout({
-  sessionId: "<%= @session.id %>"
-}).then(function(result) {
-    console.log(result.error.message);
-});
+// app/views/checkout/create.js.erb
+alert('Your order is confirmed!');
+// Or, to change the page content:
+// document.body.innerHTML += '<div class="alert alert-success">Your order is confirmed!</div>';
+// Optionally, redirect to a confirmation page or update the DOM as needed

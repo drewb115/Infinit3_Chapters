@@ -4,23 +4,17 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Featured Books</title>
+  <script src="https://js.stripe.com/v3/"></script>
   <link rel="stylesheet" href="assets/stylesheets/application.css">
   <style>
-  .my-cart-container {
-    position: fixed;
-    top: 20px;
-    left: 20px; /* Adjusted to top left */
-  }
+    .my-cart-container {
+      position: fixed;
+      top: 20px;
+      left: 20px; /* Adjusted to top left */
+    }
   </style>
 </head>
 <body>
-
-<div class="my-cart-container">
-  <!-- My Cart button -->
-  <div class="my-cart-button">
-    <a href="/cart" class="my-cart-link">My Cart</a>
-  </div>
-</div>
 
 <h1 class="title">InfiniteChapters</h1>
 
@@ -31,7 +25,7 @@
 
   <!-- Conditional Sign-in/Sign-out links -->
   <% if user_signed_in? %>
-  <h2 class="user-greeting">Hello <%= current_user.email %></h2>
+    <h2 class="user-greeting">Hello <%= current_user.email %></h2>
     <%= link_to 'Sign out', destroy_user_session_path, method: :delete %>
   <% else %>
     <%= link_to 'Sign Up', new_user_registration_path, class: 'sign-up-link' %>
@@ -91,10 +85,10 @@
       <p><strong>Status:</strong> <%= book.status %></p>
       <% unless book.status == "Out of Stock" %>
         <a href="/books/<%= book.id %>" class="view-details-link">View Details</a>
-        <%= form_with url: cart_index_path, method: :post do %>
-          <%= hidden_field_tag(:product_id, book.id) %>
-          <%= button_tag 'Add to Cart' %>
-        <% end %>
+        <%= hidden_field_tag(:product_id, book.id) %>
+        <%= button_tag 'Add to Cart' %>
+        <%= button_to "Buy now!", checkout_create_path(book_id: book.id), remote: true %>
+
       <% end %>
     </div>
   <% end %>

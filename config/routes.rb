@@ -11,9 +11,6 @@ Rails.application.routes.draw do
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
 
-  # Route for the About page - make sure it doesn't conflict with 'home#about'
-  # If 'home#about' is a different page, keep it, else remove it.
-  # get 'about', to: 'home#about'
 
   get 'added_to_cart', to: 'cart#added_to_cart'
 
@@ -23,21 +20,18 @@ Rails.application.routes.draw do
   # Route for health check
   get "up" => "rails/health#show", as: :rails_health_check
 
-  # Assuming page_contents is not being used, otherwise set up the proper controller and action
-  # resources :page_contents, only: [:show]
+   # Route for checkout form
+   get "/checkout", to: "checkout#new"
+   post "/checkout", to: "checkout#create"
+   post "checkout/create", to: "checkout#create", as: "checkout_create"
 
-  # Routes for the CartController
-  resources :cart, only: [:create, :destroy, :index, :update]
+   # Route for thank you page
+   get "/thank_you", to: "checkout#thank_you"
 
-  # Route for the checkout action
-  get '/checkout', to: 'orders#checkout', as: 'checkout'
+   get '/confirm_order', to: 'checkout#confirm_order'
 
-  # Route for creating orders
-  post '/orders', to: 'orders#create', as: 'orders'
-
-  # Route for the order confirmation
-  get '/orders/:id/confirmation', to: 'orders#confirmation', as: 'order_confirmation'
 
   # Define the root path route ("/")
   root "home#index"
+
 end
