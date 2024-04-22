@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Thank You</title>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <!-- Cleave.js for input formatting -->
+  <script src="https://cdn.jsdelivr.net/npm/cleave.js@1.6.0"></script>
+</head>
+<body>
+  <div class="container mt-4">
+    <div class="row">
+      <!-- Order Summary -->
+      <div class="col-md-6">
+        <h2>Order Summary</h2>
+        <ul class="list-group">
+          <li class="list-group-item">Title: <%= @book.title %></li>
+          <li class="list-group-item">Author: <%= @book.author %></li>
+          <!-- Move the image here -->
+          <div class="image-container text-center mb-4">
+              <% if @book.image.attached? %>
+                <%= image_tag @book.image, class: "img-fluid" %>
+              <% else %>
+              <p>No Image Available</p>
+            <% end %>
+          </div>
+          <!-- Move the image here -->
+          <li class="list-group-item">Description: <%= @book.description %></li>
+          <li class="list-group-item">Price: <%= number_to_currency(@book.price) %></li>
+          <li class="list-group-item">User Name: <%= @user.name %></li>
+          <li class="list-group-item">Email: <%= @user.email %></li>
+          <li class="list-group-item">Address: <%= @user.address %>, <%= @user.province %></li>
+          <li class="list-group-item">Taxes (GST/PST/HST): <%= number_to_currency(@tax_amount) %></li>
+          <% total_price = @book.price + @tax_amount %>
+          <li class="list-group-item">Total Price: <%= number_to_currency(total_price) %></li>
+        </ul>
+      </div>
+
+      <!-- Payment Information -->
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-body">
+            <h2 class="card-title">Payment Information</h2>
+
+            <form action="/checkout" method="post" id="checkout-form">
+              <!-- CSRF Token -->
+              <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+
+              <!-- Book ID -->
+              <%= hidden_field_tag :book_id, @book.id %>
+
+              <!-- Email input -->
+
+              <!-- Card information inputs with Cleave.js -->
+              <div class="form-group">
+                <label for="cardInfo">Card Information</label>
+                <input type="text" class="form-control" id="cardInfo" placeholder="1234 1234 1234 1234" required>
+              </div>
+
+              <div class="form-row">
+                <div class="col-6">
+                  <input type="text" class="form-control" id="expiryDate" placeholder="MM / YY" required>
+                </div>
+                <div class="col-6">
+                  <input type="text" class="form-control" id="cvc" placeholder="CVC" required>
+                </div>
+              </div>
+
+              <!-- Name on card input -->
+              <div class="form-group">
+                <label for="nameOnCard">Name on Card</label>
+                <input type="text" class="form-control" id="nameOnCard" placeholder="Enter name" required>
+              </div>
+
+              <!-- Country or region select -->
+              <div class="form-group">
+                <label for="country">Country or Region</label>
+                <select class="form-control" id="country" required>
+                  <option value="Russia">Russia</option>
+                  <option value="USA">United States</option>
+                  <option value="Canada">Canada</option>
+                  <option value="UK">United Kingdom</option>
+                  <option value="Germany">Germany</option>
+                  <option value="Philippines">Philippines</option>
+                </select>
+              </div>
+
+              <!-- Submit button -->
+              <button type="submit" class="btn btn-primary btn-block">Pay <%= number_to_currency(total_price) %></button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Order Confirmation Message -->
+    <div id="orderConfirmation" class="text-center" style="display: none;">
+      <h2>Order Confirmed!</h2>
+      <!-- You can add any additional content or styling here -->
+    </div>
+  </div>
+
+  <!-- Cleave.js to automatically format the card inputs -->
+  <script>
+    new Cleave('#cardInfo', {
+      creditCard: true,
+      delimiter: ' ',
+      blocks: [4, 4, 4, 4]
+    });
+
+    new Cleave('#expiryDate', {
+      date: true,
+      datePattern: ['m', 'y']
+    });
+
+    new Cleave('#cvc', {
+      numeral: true,
+      numeralIntegerScale: 3,
+      numeralPositiveOnly: true
+    });
+
+    // Your provided script
+    document.addEventListener("DOMContentLoaded", function() {
+      document.getElementById("checkout-form").addEventListener("submit", function(event) {
+        event.preventDefault();
+        var form = this;
+        var submitButton = form.querySelector('button[type="submit"]');
+
+        // Disable the submit button and change its text
+
+        submitButton.textContent = "Order Confirmed";
+
+        fetch(form.action, {
+          method: form.method,
+          body: new FormData(form),
+          headers: {
+            "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]').content
+          }
+        })
+        .then(response => {
+          // Check if the response indicates successful order
+          if (response.ok) {
+            // Redirect to the order_confirm.html page
+            window.location.href = "/order_confirm.html";
+          } else {
+            // Handle errors if needed
+            console.error('Error:', response.statusText);
+          }
+        })
+        .catch(error => {
+          console.error('Error:', error);
+        });
+      });
+    });
+  </script>
+</body>
+</html>

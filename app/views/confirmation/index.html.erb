@@ -1,0 +1,49 @@
+<!-- app/views/orders/confirm.html.erb -->
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Order Confirmed</title>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <!-- Custom CSS for styling -->
+  <style>
+    /* Add your custom styles here */
+    body {
+      background-color: #f8f9fa;
+    }
+    .confirm-container {
+      margin-top: 50px;
+    }
+    .confirm-content {
+      background-color: #fff;
+      border-radius: 5px;
+      padding: 20px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    .confirm-title {
+      color: #007bff;
+      margin-bottom: 20px;
+    }
+    .confirm-message {
+      font-size: 18px;
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container confirm-container">
+    <div class="row justify-content-center">
+      <div class="col-md-8">
+        <div class="confirm-content">
+          <h1 class="confirm-title">Order Confirmed!</h1>
+          <p class="confirm-message">Thank you for your purchase. Your order has been successfully confirmed.</p>
+          <!-- Button to return to home page -->
+          <a href="/" class="btn btn-primary">Return to Home Page</a>
+          <!-- Add any additional content or styling here -->
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
